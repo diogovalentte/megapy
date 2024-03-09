@@ -1,4 +1,5 @@
 import subprocess
+from time import sleep
 
 from megapy.exceptions import BandwithLimitException, CLIException
 
@@ -67,16 +68,34 @@ class Mega:
 
         return output
 
-    def download_url(self, url: str, dest_folder: str):
+    def download_url(self, url: str, dest_folder: str, retries: int = 0):
+        """Download a file from a URL.
+        If the bandwith limit is reached, it'll try again `retry` times, with a space of 1 hour between the retries.
+
+        Args:
+            url (str): The URL to download the file from.
+            dest_folder (str): The destination folder to save the file.
+            retries (int, optional): The number of retries if the download fails. Defaults to 0.
+
+        Raises:
+            BandwithLimitException: If the bandwith limit is reached.
+        """
         cli = "mega-get"
         args = [url, dest_folder]
 
-        try:
-            self.execute(cli, args)
-        except CLIException as e:
-            if (
-                "You have reached your bandwith quota. To circumvent this limit, you can upgrade to Pro, which will give you your own bandwidth package and also ample extra storage space."
-                in str(e.stdout)
-            ):
-                raise BandwithLimitException()
-            raise e
+        retries += 1
+        while True:
+            try:
+                self.execute(cli, args)
+                break
+            except CLIException as e:
+                if retries > 0:
+                    retries -= 1
+                    sleep(3600)
+                    continue
+                if (
+                    "You have reached your bandwith quota. To circumvent this limit, you can upgrade to Pro, which will give you your own bandwidth package and also ample extra storage space."
+                    in str(e.stdout)
+                ):
+                    raise BandwithLimitException()
+                raise e
