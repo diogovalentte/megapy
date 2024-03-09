@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="Diogo Valentim", email="diogovalentte10@gmail.com" },
 ]
-description = "A simple client to wrap the Meganz CLI"
+description = "A simple client to wrap the MEGAcmd CLIs"
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
