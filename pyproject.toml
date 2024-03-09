@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "megapy"
+version = "0.0.1"
+authors = [
+  { name="Diogo Valentim", email="diogovalentte10@gmail.com" },
+]
+description = "A simple client to wrap the Meganz CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/diogovalentte/megapy"
+"Bug Tracker" = "https://github.com/diogovalentte/megapy"
+
