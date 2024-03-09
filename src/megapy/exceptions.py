@@ -5,8 +5,8 @@ class CLIException(Exception):
         cli=None,
         cli_args=None,
         options=None,
-        stdout=None,
-        stderr=None,
+        stdout: str | None = None,
+        stderr: str | None = None,
     ):
         self.msg = msg
         self.cli = cli
@@ -29,3 +29,8 @@ stderr: '''
     {self.stderr}
 '''
 """
+
+
+class BandwithLimitException(Exception):
+    def __str__(self):
+        return "Bandwith limit reached. Please try again later."

@@ -1,6 +1,6 @@
 import subprocess
 
-from megapy.exceptions import CLIException
+from megapy.exceptions import BandwithLimitException, CLIException
 
 
 class Mega:
@@ -71,4 +71,12 @@ class Mega:
         cli = "mega-get"
         args = [url, dest_folder]
 
-        self.execute(cli, args)
+        try:
+            self.execute(cli, args)
+        except CLIException as e:
+            if (
+                "You have reached your bandwith quota. To circumvent this limit, you can upgrade to Pro, which will give you your own bandwidth package and also ample extra storage space."
+                in str(e.stdout)
+            ):
+                raise BandwithLimitException()
+            raise e
