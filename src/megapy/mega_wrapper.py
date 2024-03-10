@@ -68,7 +68,13 @@ class Mega:
 
         return output
 
-    def download_url(self, url: str, dest_folder: str, retries: int = 0):
+    def download_url(
+        self,
+        url: str,
+        dest_folder: str,
+        retries: int = 0,
+        ignore_quota_warn: bool = False,
+    ):
         """Download a file from a URL.
         If the bandwith limit is reached, it'll try again `retry` times, with a space of 1 hour between the retries.
 
@@ -76,17 +82,22 @@ class Mega:
             url (str): The URL to download the file from.
             dest_folder (str): The destination folder to save the file.
             retries (int, optional): The number of retries if the download fails. Defaults to 0.
+            ignore_quota_warn (bool, optional): If True, it'll use the --ignore-quota-warn option in the mega-get CLI. Defaults to False.
+                - This option will ignore the bandwith limit warning, this means it'll be stuck in the download if the bandwith limit is reached until you have quota again, then it'll resume the download.
 
         Raises:
             BandwithLimitException: If the bandwith limit is reached.
         """
         cli = "mega-get"
         args = [url, dest_folder]
+        options = dict()
+        if ignore_quota_warn:
+            options["--ignore-quota-warn"] = None
 
         retries += 1
         while True:
             try:
-                self.execute(cli, args)
+                self.execute(cli, args, options)
                 break
             except CLIException as e:
                 if retries > 0:
