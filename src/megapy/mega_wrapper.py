@@ -1,7 +1,8 @@
 import subprocess
 from time import sleep
 
-from megapy.exceptions import BandwithLimitException, CLIException, NotFoundException
+from megapy.exceptions import (BandwidthLimitException, CLIException,
+                               NotFoundException)
 
 
 class Mega:
@@ -76,17 +77,17 @@ class Mega:
         ignore_quota_warn: bool = False,
     ):
         """Download a file from a URL.
-        If the bandwith limit is reached, it'll try again `retry` times, with a space of 1 hour between the retries.
+        If the bandwidth limit is reached, it'll try again `retry` times, with a space of 1 hour between the retries.
 
         Args:
             url (str): The URL to download the file from.
             dest_path (str): The destination to save the file, can be a folder or a path to a file to be created.
             retries (int, optional): The number of retries if the download fails. Defaults to 0.
             ignore_quota_warn (bool, optional): If True, it'll use the --ignore-quota-warn option in the mega-get CLI. Defaults to False.
-                - This option will ignore the bandwith limit warning, this means it'll be stuck in the download if the bandwith limit is reached until you have quota again, then it'll resume the download.
+                - This option will ignore the bandwidth limit warning, this means it'll be stuck in the download if the bandwith limit is reached until you have quota again, then it'll resume the download.
 
         Raises:
-            BandwithLimitException: If the bandwith limit is reached.
+            BandwidthLimitException: If the bandwith limit is reached.
         """
         cli = "mega-get"
         args = [url, dest_path]
@@ -104,10 +105,10 @@ class Mega:
                     sleep(3600)
                     continue
                 if (
-                    "You have reached your bandwith quota. To circumvent this limit, you can upgrade to Pro, which will give you your own bandwidth package and also ample extra storage space."
+                    "You have reached your bandwdith quota. To circumvent this limit, you can upgrade to Pro, which will give you your own bandwidth package and also ample extra storage space."
                     in str(e.stdout)
                 ):
-                    raise BandwithLimitException()
+                    raise BandwidthLimitException()
                 elif "Not found" in str(e.stdout):
                     raise NotFoundException()
                 raise e

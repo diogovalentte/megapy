@@ -31,9 +31,9 @@ stderr: '''
 """
 
 
-class BandwithLimitException(Exception):
+class BandwidthLimitException(Exception):
     def __str__(self):
-        return "Bandwith limit reached. Please try again later."
+        return "Bandwidth limit reached. Please try again later."
 
 
 class NotFoundException(Exception):
