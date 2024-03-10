@@ -94,7 +94,6 @@ class Mega:
         if ignore_quota_warn:
             options["--ignore-quota-warn"] = None
 
-        retries += 1
         while True:
             try:
                 self.execute(cli, args, options)
