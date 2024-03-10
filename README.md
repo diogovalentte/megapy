@@ -14,5 +14,5 @@ pip install git+ssh://git@github.com/diogovalentte/megapy.git#egg=megapy --upgra
 # HTTPS
 pip install git+https://{YOUR TOKEN}@github.com/diogovalentte/megapy.git#egg=megapy --upgrade
 ```
-2. It's a simple package, just look in the **src/** folder to know how to use it.
-
+2. (Optional) If you're logged in the MEGAcmd (like using the commnad `mega-login` to login with your Mega account), this library will use your account.
+3. It's a simple package, just look in the **src/** folder to know how to use it.
