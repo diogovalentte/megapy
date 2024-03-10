@@ -34,3 +34,8 @@ stderr: '''
 class BandwithLimitException(Exception):
     def __str__(self):
         return "Bandwith limit reached. Please try again later."
+
+
+class NotFoundException(Exception):
+    def __str__(self):
+        return "Object not found."

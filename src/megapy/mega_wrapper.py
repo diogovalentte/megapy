@@ -1,7 +1,7 @@
 import subprocess
 from time import sleep
 
-from megapy.exceptions import BandwithLimitException, CLIException
+from megapy.exceptions import BandwithLimitException, CLIException, NotFoundException
 
 
 class Mega:
@@ -109,4 +109,6 @@ class Mega:
                     in str(e.stdout)
                 ):
                     raise BandwithLimitException()
+                elif "Not found" in str(e.stdout):
+                    raise NotFoundException()
                 raise e
